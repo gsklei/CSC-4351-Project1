@@ -1,0 +1,14 @@
+VAR             var        line=1 col=0$
+BREAK           break      line=1 col=4$
+RPAREN          )          line=1 col=10$
+VAR             var        line=1 col=14$
+ID              ___O       line=1 col=19$
+ID              ____Vp5    line=1 col=26$
+ID              _d3j       line=1 col=34$
+DECIMAL_LITERAL 9042       line=1 col=40$
+DECIMAL_LITERAL 4          line=1 col=46$
+STRING_LITERAL  m^I^M^On      line=1 col=62$
+STRING_LITERAL  V$
+^N^@^H      line=1 col=77$
+STRING_LITERAL  d^L^@^N^M^Mg^@   line=1 col=95$
+EOF$
