@@ -123,6 +123,8 @@ STRING_LITERAL
       { setText(processString(getText())); }
    ;
    
-DECIMAL_LITERAL : DIGIT+ ;
+HEX_LITERAL : '0' [xX] [0-9a-fA-F]+ ;       
+OCTAL_LITERAL : '0' [0-7]+ ;                 
+DECIMAL_LITERAL : [1-9] DIGIT* | '0' ; 
 
 ID : (ALPHA | '_') (ALPHA | DIGIT | '_')*;
