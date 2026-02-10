@@ -32,6 +32,8 @@ lexer grammar gLexer;
          if (e == 'r') { out.append('\r'); i++; continue; }
          if (e == 'b') { out.append('\b'); i++; continue; }
          if (e == 'f') { out.append('\f'); i++; continue; }
+         if (e == 'v') { out.append('\u000B'); i++; continue; }
+         if (e == 'a') { out.append('\u0007'); i++; continue; } 
          if (e == '\\') { out.append('\\'); i++; continue; }
          if (e == '"') { out.append('\"'); i++; continue; }
 
