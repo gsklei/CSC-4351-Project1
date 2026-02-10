@@ -27,6 +27,7 @@ lexer grammar gLexer;
          i++;
          if (i >= end) break;
          char e = raw.charAt(i);
+
          if (e == 'n') { out.append('\n'); i++; continue; }
          if (e == 't') { out.append('\t'); i++; continue; }
          if (e == 'r') { out.append('\r'); i++; continue; }
@@ -35,18 +36,18 @@ lexer grammar gLexer;
          if (e == 'v') { out.append('\u000B'); i++; continue; }
          if (e == 'a') { out.append('\u0007'); i++; continue; } 
          if (e == '\\') { out.append('\\'); i++; continue; }
-         if (e == '"') { out.append('\"'); i++; continue; }
+         if (e == '"') { out.append('"'); i++; continue; }
 
          if (e == 'x' || e == 'X') {
             int j = i + 1;
             while (j < end) {
                char h = raw.charAt(j);
-               boolean ok = (h >= '0' && h <= '9') || (h >= 'a' && h <= 'f') || (h >= 'A' && h <= 'F');
-               if (!ok) break;
+               if (!((h >= '0' && h <= '9') ||
+                     (h >= 'a' && h <= 'f') ||
+                     (h >= 'A' && h <= 'F'))) break;
                j++;
             }
-            String hex = raw.substring(i, j);
-            out.append((char) stringToInt(hex));
+            out.append((char) stringToInt(raw.substring(i, j)));
             i = j;
             continue;
          }
@@ -60,8 +61,7 @@ lexer grammar gLexer;
                j++;
                count++;
             }
-            String oct = raw.substring(i, j);
-            out.append((char) stringToInt(oct));
+            out.append((char) stringToInt(raw.substring(i, j)));
             i = j;
             continue;
          }
@@ -73,62 +73,65 @@ lexer grammar gLexer;
    }
 }
 
-
 fragment ALPHA : [A-Za-z];
 fragment DIGIT : [0-9];
 
 WS : [ \t\r\n]+ -> skip;
 
-LINE_COMMENT : '//' ~[\r\n]* -> skip;
+LINE_COMMENT  : '//' ~[\r\n]* -> skip;
 BLOCK_COMMENT : '/*' .*? '*/' -> skip;
 
-VAR : 'var';
-FUN : 'fun';
-WHILE : 'while';
-CONST : 'const';
-STRING : 'string';
-VOID : 'void';
-RETURN : 'return';
-IF : 'if';
-ELSE : 'else';
-BREAK : 'break';
-INT : 'int';
-TYPEDEF : 'typedef';
-STRUCT : 'struct';
-UNION : 'union';
+VAR      : 'var';
+FUN      : 'fun';
+WHILE    : 'while';
+CONST    : 'const';
+STRING   : 'string';
+VOID     : 'void';
+RETURN   : 'return';
+IF       : 'if';
+ELSE     : 'else';
+BREAK    : 'break';
+INT      : 'int';
+TYPEDEF  : 'typedef';
+STRUCT   : 'struct';
+UNION    : 'union';
 
-ARROW : '->';
-ANDAND : '&&';
-OROR : '||';
+AND : '&&';
+OR  : '||';
 
-LT : '<';
-STAR : '*';
-PLUS : '+';
-TILDE : '~';
+BITWISEAND : '&';
+BITWISEOR  : '|';
+
+ADD    : '+';
+STAR   : '*';
+TILDE  : '~';
 ASSIGN : '=';
-DOT : '.';
+DOT    : '.';
+ARROW  : '->';
+LT     : '<';
 
-LBRACE : '{';
-RBRACE : '}';
-COMMA : ',';
-LPAREN : '(';
-RPAREN : ')';
-AMP : '&';
-BAR : '|';
-BANG : '!';
-SEMI : ';';
-COLON : ':';
-LBRACK : '[';
-RBRACK : ']';
+LCURLY  : '{';
+RCURLY  : '}';
+LSQUARE : '[';
+RSQUARE : ']';
+LPAREN  : '(';
+RPAREN  : ')';
+COMMA   : ',';
+SEMICOLON : ';';
+COLON   : ':';
+BANG    : '!';
 
 STRING_LITERAL
    : '"' ( '\\' . | ~["\\\r\n] )* '"'
-      { setText(processString(getText())); }
+     { setText(processString(getText())); }
    ;
-   
-HEX_LITERAL : '0' [xX] [0-9a-fA-F]+ ;       
-OCTAL_LITERAL : '0' [0-7]+ ;                 
-DECIMAL_LITERAL : [1-9] DIGIT* | '0' ; 
+
+
+DECIMAL_LITERAL
+   : '0' [xX] [0-9a-fA-f]+
+   | '0' [0-7]+
+   | [0-9]+
+   ;
 
 ID : (ALPHA | '_') (ALPHA | DIGIT | '_')*;
 
