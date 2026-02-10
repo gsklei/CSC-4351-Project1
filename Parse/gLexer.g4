@@ -78,6 +78,7 @@ fragment DIGIT : [0-9];
 WS : [ \t\r\n]+ -> skip;
 
 LINE_COMMENT : '//' ~[\r\n]* -> skip;
+BLOCK_COMMENT : '/*' .*? '*/' -> skip;
 
 VAR : 'var';
 FUN : 'fun';
@@ -128,3 +129,5 @@ OCTAL_LITERAL : '0' [0-7]+ ;
 DECIMAL_LITERAL : [1-9] DIGIT* | '0' ; 
 
 ID : (ALPHA | '_') (ALPHA | DIGIT | '_')*;
+
+
